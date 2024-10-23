@@ -47,6 +47,7 @@ class ConfigFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChange
         "websocket-http" -> Pair(null, false)
         "websocket-tls" -> Pair(null, true)
         "quic-tls" -> Pair("quic", false)
+        "httpupgrade" -> Pair("httpupgrade", false)
         else -> {
             check(false)
             Pair(null, false)
@@ -68,6 +69,7 @@ class ConfigFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChange
         mode.value = when {
             (options["mode"] ?: "websocket") == "quic" -> "quic-tls"
             "tls" in options -> "websocket-tls"
+            options["mode"] == "httpupgrade" -> "httpupgrade"
             else -> "websocket-http"
         }.also { onModeChange(it) }
         host.text = options["host"] ?: "cloudfront.com"
